@@ -36,18 +36,42 @@ COLS = [
 
 data = raw_data[COLS]
 
-print("""
-=======================
-    DATA Overview
-=======================
-Size of Data: {:d}
-Num. of Lenders: {:d}, Num. of "* Undisclosed" {:d}
+print(
+    "\n=======================\n"
+    "    DATA Overview\n"
+    "=======================\n"
+    "Size of Data: {:d}\n"
+    "Zero Transction Amount {:d}\n"
+    "Zero Loan Amount {:d}\n"
+    "Num. of Lenders:{:d}, \n\t Num. of \"* Undisclosed\" {:d}\n"
+    "Num. of property_type {:d}\n"
+    .format(
+        data.shape[0],
+        data.transaction_amount.value_counts()[0],
+        data.loan_amount.value_counts()[0],
+        data.lender.nunique(),
+        data.lender.value_counts()['* Undisclosed'],
+        data.property_type.nunique()
+    )
+)
 
+"""
+Now draw plot to look at different distribution of data. Using NumPy and Matplotlib.
+    Transaction amount: ta
+    Loan amount: la
+    Lender: ld (might have long tail)
+    Transaction data: td
+    Property type: pt
+    Year built: yb
+    Square foot: sf
+"""
 
+# Transaction amount:
+np_ta = data.as_matrix(columns=["transaction_amount"])\
+            .transpose()
 
-""".format(
-    data.shape[0],
-    data.lender.nunique()), data.)
+ta_min, ta_max = np.amin(np_ta), np.amax(np_ta)
 
-
+print(np_ta)
+print(np_ta.shape)
 
